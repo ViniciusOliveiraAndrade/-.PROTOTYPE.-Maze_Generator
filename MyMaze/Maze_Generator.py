@@ -16,38 +16,37 @@ class Maze_Generator(object):
                 self.grid[i].append(cell)
     
     def generateMaze(self, i , j):
-        self.current_cell = self.grid[i][j] 
-        self.current_cell.visited = True
-        self.stack.append(self.current_cell)
-        while len(self.stack) > 0:
-            next_cell = self.checkNeighbors(self.current_cell)
-            if next_cell is not None:
-                next_cell.visited = True
-                self.removeWalls(self.current_cell, next_cell)
-                self.current_cell = next_cell
-                self.stack.append(self.current_cell)
-            else:
-                self.current_cell = self.stack.pop(len(self.stack)-1)
-        print("Maze Generator Has Finished!")
+        # self.current_cell = self.grid[i][j] 
+        # self.current_cell.visited = True
+        # self.stack.append(self.current_cell)
+        # while len(self.stack) > 0:
+        #     next_cell = self.checkNeighbors(self.current_cell)
+        #     if next_cell is not None:
+        #         next_cell.visited = True
+        #         self.removeWalls(self.current_cell, next_cell)
+        #         self.current_cell = next_cell
+        #         self.stack.append(self.current_cell)
+        #     else:
+        #         self.current_cell = self.stack.pop(len(self.stack)-1)
+        # print("Maze Generator Has Finished!")
                 
-        # Genarete with delay 
-        # delay(200)
-        # first = False
-        # if len(self.stack) == 0 and not first:
-        #     self.current_cell = self.grid[i][j] 
-        #     self.current_cell.visited = True
-        #     self.stack.append(self.current_cell)
-        #     first = True
-        # next_cell = self.checkNeighbors(self.current_cell)
-        # if len(self.stack) > 0 and next_cell is not None:
-        #     next_cell.visited = True
-        #     self.stack.append(next_cell)
-        #     self.removeWalls(self.current_cell, next_cell)
-
-        #     self.current_cell = next_cell
-
-        # else:
-        #     self.current_cell = self.stack.pop(len(self.stack)-1)
+        # ==================================Genarete with delay========================
+         
+        delay(100)
+        first = False
+        if len(self.stack) == 0 and not first:
+            self.current_cell = self.grid[i][j] 
+            self.current_cell.visited = True
+            self.stack.append(self.current_cell)
+            first = True
+        next_cell = self.checkNeighbors(self.current_cell)
+        if len(self.stack) > 0 and next_cell is not None:
+            next_cell.visited = True
+            self.stack.append(next_cell)
+            self.removeWalls(self.current_cell, next_cell)
+            self.current_cell = next_cell
+        else:
+            self.current_cell = self.stack.pop(len(self.stack)-1)
     
             
                                             
@@ -88,11 +87,18 @@ class Maze_Generator(object):
             cell_a.walls[2] = False
             cell_b.walls[0] = False
     
+    def displayCurrentCell(self):
+        x = self.current_cell.j * self.current_cell.w_size
+        y = self.current_cell.i * self.current_cell.h_size
+        fill(0,0,255,100)
+        rect(x, y, self.current_cell.w_size, self.current_cell.h_size)
+    
     def display(self):
         for rows in self.grid:
             for cell in rows:
                 cell.display()
-        
+                if len(self.stack) > 0:
+                    self.displayCurrentCell()
     
 class Cell(object):
     def __init__(self, i, j, w_size, h_size):
