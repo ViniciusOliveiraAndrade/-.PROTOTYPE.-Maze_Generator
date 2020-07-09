@@ -5,6 +5,7 @@ class Maze_Generator(object):
         self.rows_size = rows_size
         self.cols_size = cols_size
         self.grid = []
+        self.stack = []
         self.generateGrid()
     
     def generateGrid(self):
@@ -17,10 +18,16 @@ class Maze_Generator(object):
     def generateMaze(self, i , j):
         self.current_cell = self.grid[i][j] 
         self.current_cell.visited = True
-        next_cell = self.checkNeighbors(self.current_cell)
-        if next_cell is not None:
-            next_cell.visited = True
-            current_cell = next_cell
+        self.stack.append(self.current_cell)
+        while len(self.stack) > 0:
+            delay(1000)
+            next_cell = self.checkNeighbors(self.current_cell)
+            if next_cell is not None:
+                next_cell.visited = True
+                self.current_cell = next_cell
+                self.stack.append(self.current_cell)
+            else:
+                self.current_cell = self.stack.pop(0)
             
             
                                             
