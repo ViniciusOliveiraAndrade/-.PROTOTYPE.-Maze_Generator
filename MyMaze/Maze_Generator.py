@@ -23,25 +23,32 @@ class Maze_Generator(object):
             next_cell = self.checkNeighbors(self.current_cell)
             if next_cell is not None:
                 next_cell.visited = True
+                self.removeWalls(self.current_cell, next_cell)
                 self.current_cell = next_cell
                 self.stack.append(self.current_cell)
             else:
-                self.current_cell = self.stack.pop(0)
+                self.current_cell = self.stack.pop(len(self.stack)-1)
+        print("Maze Generator Has Finished!")
                 
         # Genarete with delay 
-        # delay(100)
-        # if len(self.stack) == 0:
+        # delay(200)
+        # first = False
+        # if len(self.stack) == 0 and not first:
         #     self.current_cell = self.grid[i][j] 
         #     self.current_cell.visited = True
         #     self.stack.append(self.current_cell)
+        #     first = True
         # next_cell = self.checkNeighbors(self.current_cell)
         # if len(self.stack) > 0 and next_cell is not None:
         #     next_cell.visited = True
+        #     self.stack.append(next_cell)
+        #     self.removeWalls(self.current_cell, next_cell)
+
         #     self.current_cell = next_cell
-        #     self.stack.append(self.current_cell)
+
         # else:
-        #     self.current_cell = self.stack.pop(0)
-            
+        #     self.current_cell = self.stack.pop(len(self.stack)-1)
+    
             
                                             
     def checkNeighbors(self, current_cell):
@@ -63,7 +70,24 @@ class Maze_Generator(object):
             return neighbors[int(random(len(neighbors)))]
         return None
                 
-                    
+                
+    def removeWalls(self, cell_a, cell_b):
+        x = cell_a.j - cell_b.j
+        if x == 1:
+            cell_a.walls[3] = False
+            cell_b.walls[1] = False
+        elif x == -1:
+            cell_a.walls[1] = False
+            cell_b.walls[3] = False
+        
+        y = cell_a.i - cell_b.i
+        if y == 1:
+            cell_a.walls[0] = False
+            cell_b.walls[2] = False
+        elif y == -1:
+            cell_a.walls[2] = False
+            cell_b.walls[0] = False
+    
     def display(self):
         for rows in self.grid:
             for cell in rows:
@@ -83,8 +107,8 @@ class Cell(object):
         x = self.j * self.w_size
         y = self.i * self.h_size
         stroke(255)
-        fill(255,255,255)
-        text("i={} j={}".format(self.i, self.j), x +2, y+15)
+        # fill(255,255,255)
+        # text("i={} j={}".format(self.i, self.j), x +2, y+15)
         if self.walls[0]:
             line(x, y, x + self.w_size, y )
         if self.walls[1]:
@@ -94,5 +118,6 @@ class Cell(object):
         if self.walls[3]:
             line(x, y + self.h_size, x, y)
         if self.visited:
+            noStroke()
             fill(255,0,255,100)
             rect(x, y, self.w_size, self.h_size)
