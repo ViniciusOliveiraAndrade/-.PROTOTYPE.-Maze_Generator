@@ -9,4 +9,6 @@ def setup():
     
 def draw():
     background(51)
+    
+    # maze.generateMaze(4,4) #Genarete with delay 
     maze.display()

@@ -20,7 +20,6 @@ class Maze_Generator(object):
         self.current_cell.visited = True
         self.stack.append(self.current_cell)
         while len(self.stack) > 0:
-            delay(1000)
             next_cell = self.checkNeighbors(self.current_cell)
             if next_cell is not None:
                 next_cell.visited = True
@@ -28,6 +27,20 @@ class Maze_Generator(object):
                 self.stack.append(self.current_cell)
             else:
                 self.current_cell = self.stack.pop(0)
+                
+        # Genarete with delay 
+        # delay(100)
+        # if len(self.stack) == 0:
+        #     self.current_cell = self.grid[i][j] 
+        #     self.current_cell.visited = True
+        #     self.stack.append(self.current_cell)
+        # next_cell = self.checkNeighbors(self.current_cell)
+        # if len(self.stack) > 0 and next_cell is not None:
+        #     next_cell.visited = True
+        #     self.current_cell = next_cell
+        #     self.stack.append(self.current_cell)
+        # else:
+        #     self.current_cell = self.stack.pop(0)
             
             
                                             
